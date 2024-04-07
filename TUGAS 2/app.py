@@ -5,6 +5,7 @@ from flask import request
 from flask_mysqldb import MySQL
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -14,17 +15,16 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'property'
 mysql = MySQL(app)
 
-app.config['JWT_SECRET_KEY'] = 'your_secret_key'  # Replace with your secret key
+app.config['JWT_SECRET_KEY'] = 'your_secret_key' 
 jwt = JWTManager(app)
 
-# Function to validate the user credentials (username and password)
+
 def validate_user(username, password):
-    # Simple validation example, replace with your actual validation logic
-    if username == 'user' and password == 'pass':
+    if username == 'yesroyoan' and password == 'dijaminA':
         return True
     return False
 
-# Route for user login and generating JWT token
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -35,17 +35,16 @@ def login():
         return jsonify({'message': 'Please provide username and password'}), 400
 
     if validate_user(username, password):
-        # If user is validated, create JWT token
+        # Jika usernya valid, maka JWT akan mengirim respons
         access_token = create_access_token(identity=username)
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({'message': 'Incorrect username or password'}), 401
 
-# Protected route that requires token authentication
+# Memprotect route autentikasi 
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
-    # Get user identity from the token
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
@@ -176,13 +175,22 @@ def edit_helpdesk(id_pelanggan):
     deskripsi = request_data.get('deskripsi')
     status = request_data.get('status')
 
-
     cursor = mysql.connection.cursor()
     cursor.execute("UPDATE HELPDESK SET tanggal = %s, topik = %s, deskripsi = %s, status = %s WHERE id_pelanggan = %s",
                    (tanggal, topik, deskripsi, status, id_pelanggan))
     mysql.connection.commit()
     cursor.close()
-    return jsonify({'message': 'Data helpdesk berhasil diubah'})
+    
+    # Menambahkan informasi timestamp
+    timestamp = datetime.utcnow()
+    
+    response = {
+        "timestamp": timestamp,
+        "code": 200,
+        "message": "Data helpdesk berhasil diubah"
+    }
+    
+    return jsonify(response)
 
 #Untuk Menghapus Data
 @app.route('/deletehelpdesk/<int:id_pelanggan>', methods=['DELETE'])
@@ -192,6 +200,15 @@ def delete_helpdesk(id_pelanggan):
     mysql.connection.commit()
     cursor.close()
     return jsonify({'message': 'Data berhasil dihapus'})
+
+   # Menambahkan informasi timestamp
+    timestamp = datetime.utcnow()
+    
+    response = {
+        "timestamp": timestamp,
+        "code": 200,
+        "message": "Data berhasil dihapus"
+    }
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=50, debug=True)
