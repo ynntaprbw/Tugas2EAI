@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk View</title>
+</head>
+<body>
+    <h1>Helpdesk View</h1>
+    
+    <!-- Daftar pertanyaan yang ada -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID Pelanggan</th>
+                <!-- Kolom lainnya -->
+                <th>Delete</th> <!-- Kolom untuk tombol delete -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for helpdesk in helpdesk_data %}
+            <tr>
+                <td>{{ helpdesk.id_pelanggan }}</td>
+                <!-- Kolom lainnya -->
+                <td>
+                    <form id="deleteForm{{ helpdesk.id_pelanggan }}" method="POST" action="/deletehelpdesk">
+                        <input type="hidden" name="id_pelanggan" value="{{ helpdesk.id_pelanggan }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Menggunakan JavaScript untuk mengonfirmasi penghapusan
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Menghentikan pengiriman formulir
+                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                    const formData = new FormData(this);
+                    fetch(this.action, {
+                        method: 'DELETE',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete helpdesk');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(data.message);
+                        // Refresh halaman setelah penghapusan
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Gagal menghapus helpdesk');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

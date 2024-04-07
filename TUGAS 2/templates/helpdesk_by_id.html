@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELPDESK CUSTOMER BY ID</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-back {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .btn-back:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Helpdesk by ID</h1>
+
+    <table>
+        <tr>
+            <th>ID Pelanggan</th>
+            <th>ID Pelaporan</th>
+            <th>Tanggal</th>
+            <th>Topik</th>
+            <th>Deskripsi</th>
+            <th>Status</th>
+        </tr>
+        {% for helpdesk in helpdesk_data %}
+        <tr>
+            <td>{{ helpdesk.id_pelanggan }}</td>
+            <td>{{ helpdesk.id_laporan }}</td>
+            <td>{{ helpdesk.tanggal }}</td>
+            <td>{{ helpdesk.topik }}</td>
+            <td>{{ helpdesk.deskripsi }}</td>
+            <td>{{ helpdesk.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="btn-container">
+        <a href="/helpdesk_view" class="btn-back">Kembali ke Helpdesk View</a>
+    </div>
+</body>
+</html>

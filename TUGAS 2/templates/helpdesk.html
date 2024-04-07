@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .edit-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .add-button {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: block;
+            margin: auto;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Selamat Datang di Helpdesk Management</h1>
+    
+    <!-- Daftar pertanyaan yang ada -->
+    <h2>Daftar Keluhan</h2>
+    <table>
+        <tr>
+            <th>ID Pelaporan</th>
+            <th>ID Pelanggan</th>
+            <th>Tanggal</th>
+            <th>Topik</th>
+            <th>Deskripsi</th>
+            <th>Status</th>
+            <th>Edit</th> <!-- Tambah kolom Edit di sini -->
+            <th>Delete</th> <!-- Tambah kolom Delete di sini -->
+        </tr>
+        {% for helpdesk in helpdesk_data %}
+        <tr>
+            <td>{{ helpdesk[0] }}</td>
+            <td>{{ helpdesk[1] }}</td>
+            <td>{{ helpdesk[2] }}</td>
+            <td>{{ helpdesk[3] }}</td>
+            <td>{{ helpdesk[4] }}</td>
+            <td>{{ helpdesk[5] }}</td>
+            <td><a href="/edithelpdesk" class="edit-button">Edit</a></td> <!-- Tambah tombol Edit di sini -->
+            <td><a href="/deletehelpdesk" class="delete-button">Delete</a></td> <!-- Tambah tombol Delete di sini -->
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Tombol Tambah -->
+    <br><br>
+    <a href="/" class="add-button">Tambah</a>
+</body>
+</html>
